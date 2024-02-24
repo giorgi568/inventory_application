@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1= categoryName
+  p= categoryDescription
+  each item in items
+    li
+      a(href=item.url)= item.name 

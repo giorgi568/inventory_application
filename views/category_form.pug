@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+
+  form(method='POST')
+    .form-group 
+      label(for='name') Category: 
+      input#name.form-control.w-50(type='text', placeholder='cars, clothes ect.', name='name', required, value=(undefined===category ? '' : category.name))
+      label(for='description') Description:
+    button.btn.btn-primary(type='submit') Submit 
+  
+  if errors 
+    ul 
+      for error in errors 
+        li!= error.msg

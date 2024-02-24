@@ -4,4 +4,7 @@ block content
   h1= title
   em Number Of Categories #{category_count}
   each category in categories
-    li= category.name
+    li
+      a(href=`${category.url}`)= category.name
+  
+  a(href="/categories/create") Create New Category 
