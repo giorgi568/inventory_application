@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const category_controller = require('../controllers/categoryController');
-const item_controller = require('../controllers/itemController')
+const item_controller = require('../controllers/itemController');
 
 /* GET home page. */
 router.get('/', category_controller.index);
@@ -21,7 +21,15 @@ router.get('/categories/:id/delete', category_controller.delete_get);
 router.post('/categories/:id/delete', category_controller.delete_post);
 
 // item routes
+router.get('/items/create', item_controller.create_get);
+router.post('/items/create', item_controller.create_post);
+
 router.get('/items/:id', item_controller.detail);
 
+router.get('/items/:id/update', item_controller.update_get);
+router.post('/items/:id/update', item_controller.update_post);
+
+router.get('/items/:id/delete', item_controller.delete_get);
+router.post('/items/:id/delete', item_controller.delete_post);
 
 module.exports = router;
