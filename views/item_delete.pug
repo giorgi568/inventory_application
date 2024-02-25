@@ -3,10 +3,24 @@ extends layout
 block content
 
   h1 #{title}: #{item.name}
-    
-    p Do you really want to delete this item?
 
-    form(method='POST')
-      .form-group 
-        input#itemId.form-control(type='hidden', name='itemId', value=item._id)
-      button.btn.btn-primary(type='sumbit') Submit 
+  p Do you really want to delete this item?
+
+  form(method='POST')
+    .form-group 
+      input#itemId.form-control(type='hidden', name='itemId', value=item._id)
+
+    .form-group 
+      label(for='riddle') To delete the item answer the following riddle:
+      br
+      i Alive without breath,
+      i As cold as death;
+      i Never thirsty, ever drinking,
+      i All in mail never clinking.
+      input#riddle.form-control(type='text', name='riddle')
+
+    button.btn.btn-primary(type='sumbit') Submit 
+
+    if errors 
+      each error in errors
+        li= error.msg

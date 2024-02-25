@@ -189,7 +189,6 @@ exports.update_post = [
           categories: allCategories,
           errors: errors.array(),
           item: item,
-          errors: errors.array(),
         });
       } else {
         const updatedItem = await Item.findByIdAndUpdate(
@@ -222,11 +221,35 @@ exports.delete_get = async (req, res, next) => {
   }
 };
 
-exports.delete_post = async (req, res, next) => {
-  try {
-    await Item.findByIdAndDelete(req.body.itemId);
-    res.redirect('/');
-  } catch (err) {
-    return next(err);
-  }
-};
+exports.delete_post = [
+  body('riddle', 'Answer is incorrect')
+    .trim()
+    .escape()
+    .custom((value) => {
+      value = value.toLowerCase();
+      if (value !== 'fish') {
+        throw new Error('Wrong Answer');
+      } else {
+        return true;
+      }
+    }),
+  async (req, res, next) => {
+    try {
+      const item = await Item.findById(req.body.itemId).exec();
+
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.render('item_delete', {
+          title: 'Delete Item',
+          item: item,
+          errors: errors.array(),
+        });
+      } else {
+        await Item.findByIdAndDelete(req.body.itemId);
+        res.redirect('/');
+      }
+    } catch (err) {
+      return next(err);
+    }
+  },
+];
